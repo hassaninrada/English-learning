@@ -1,4 +1,4 @@
-# LingoEnglish - Complete English Learning Platform
+# English - Complete English Learning Platform
 
 A production-ready, Duolingo-inspired English learning web application with gamification, speech recognition, and real-time leaderboards.
 
@@ -142,3 +142,4 @@ Free to use for educational purposes.
 ---
 
 **Built with ❤️ for English learners worldwide**
+
