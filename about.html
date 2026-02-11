@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | English Learning</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .about-hero {
+            background: linear-gradient(135deg, var(--neutral-900) 0%, var(--neutral-800) 100%);
+            color: white;
+            padding: 100px 0 160px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .developer-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            max-width: 800px;
+            margin: -100px auto 0;
+            position: relative;
+            z-index: 10;
+            border: 1px solid var(--neutral-200);
+            padding: 60px 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dev-avatar {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            border: 6px solid white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            margin-bottom: 32px;
+            background: var(--neutral-100);
+            position: relative;
+            /* Primary color ring effect */
+            outline: 4px solid var(--primary);
+            outline-offset: -2px;
+        }
+
+        .dev-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            transition: transform 0.5s ease;
+        }
+
+        .developer-card:hover .dev-image {
+            transform: scale(1.05);
+        }
+
+        .role-badge {
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            font-weight: 800;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 8px 24px;
+            border-radius: 50px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+            margin-bottom: 24px;
+        }
+
+        .contact-grid {
+            display: flex;
+            gap: 24px;
+            margin-top: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 24px;
+            background: var(--neutral-100);
+            border-radius: 16px;
+            transition: all 0.2s;
+            text-decoration: none;
+            border: 1px solid transparent;
+        }
+
+        .contact-item:hover {
+            background: white;
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .icon-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--primary);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .site-footer {
+            background: var(--neutral-900);
+            color: white;
+            padding: 80px 0 40px;
+            margin-top: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-link {
+            color: var(--neutral-400);
+            text-decoration: none;
+            margin-bottom: 16px;
+            display: block;
+            transition: color 0.2s;
+        }
+
+        .footer-link:hover {
+            color: white;
+            transform: translateX(4px);
+        }
+
+        @media (max-width: 900px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .contact-grid {
+                flex-direction: column;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body style="display: flex; flex-direction: column; min-height: 100vh; background-color: var(--neutral-100);">
+
+    <nav>
+        <div class="container nav-content">
+            <a href="index.html" class="logo">🦉 English Learning</a>
+            <div class="nav-links">
+                <a href="dashboard.html">Learn</a>
+                <a href="leaderboard.html">Leaderboard</a>
+                <a href="shop.html">Shop</a>
+                <a href="auth.html?mode=login" class="btn btn-outline" style="padding: 10px 20px;">Sign In</a>
+                <a href="auth.html?mode=signup" class="btn btn-primary" style="padding: 10px 20px;">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <main style="flex: 1; padding-bottom: 120px;">
+        <!-- Hero Section -->
+        <section class="about-hero">
+            <div class="container">
+                <h1 style="color: white; font-size: 56px; margin-bottom: 24px; line-height: 1.1;">Meet the Creator</h1>
+                <p
+                    style="color: var(--neutral-300); max-width: 600px; margin: 0 auto; font-size: 20px; font-weight: 300;">
+                    Visionary engineering meeting educational excellence.
+                </p>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="developer-card">
+                <div class="dev-avatar">
+                    <img src="about.jpeg" alt="Hassanin Rada" class="dev-image">
+                </div>
+
+                <div class="role-badge">Lead Developer & Creator</div>
+
+                <h2 style="font-size: 42px; margin-bottom: 20px; line-height: 1.1; color: var(--neutral-900);">Hassanin
+                    Rada</h2>
+
+                <p
+                    style="color: var(--neutral-600); margin-bottom: 12px; font-size: 18px; line-height: 1.6; max-width: 600px;">
+                    A passionate software engineer and educator dedicated to transforming how the world learns English.
+                </p>
+                <p style="color: var(--neutral-600); font-size: 18px; line-height: 1.6; max-width: 600px;">
+                    "My mission is to build tools that empower students to achieve fluency through technology,
+                    gamification, and structured learning."
+                </p>
+
+                <div class="contact-grid">
+                    <a href="mailto:hassaninrada@gmail.com" class="contact-item">
+                        <div class="icon-box">📧</div>
+                        <div>
+                            <div
+                                style="font-size: 11px; font-weight: 800; color: var(--neutral-500); text-transform: uppercase;">
+                                Email Me</div>
+                            <div style="color: var(--neutral-900); font-weight: 700; font-size: 16px;">
+                                hassaninrada@gmail.com</div>
+                        </div>
+                    </a>
+
+                    <a href="tel:03302951359" class="contact-item">
+                        <div class="icon-box">📱</div>
+                        <div>
+                            <div
+                                style="font-size: 11px; font-weight: 800; color: var(--neutral-500); text-transform: uppercase;">
+                                Call Me</div>
+                            <div style="color: var(--neutral-900); font-weight: 700; font-size: 16px;">03302951359</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <a href="index.html" class="logo"
+                        style="color: white; margin-bottom: 24px; display: inline-block;">🦉 English Learning</a>
+                    <p style="color: var(--neutral-400); font-size: 16px; line-height: 1.6; max-width: 320px;">
+                        The professional framework for mastering English. Built with precision, designed for results.
+                    </p>
+                </div>
+                <div>
+                    <h4 style="color: white; margin-bottom: 24px; font-size: 18px;">Platform</h4>
+                    <a href="dashboard.html" class="footer-link">Learning Path</a>
+                    <a href="leaderboard.html" class="footer-link">Leaderboard</a>
+                    <a href="shop.html" class="footer-link">Rewards Shop</a>
+                </div>
+                <div>
+                    <h4 style="color: white; margin-bottom: 24px; font-size: 18px;">Support</h4>
+                    <a href="about.html" class="footer-link">About & Contact</a>
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                </div>
+            </div>
+            <div
+                style="border-top: 1px solid var(--neutral-800); padding-top: 32px; text-align: center; color: var(--neutral-500); font-size: 14px;">
+                &copy; 2026 English Learning Portal. Professional Education Framework.<br>
+                <span style="color: var(--neutral-400); font-weight: 600; margin-top: 8px; display: inline-block;">Built
+                    by Hassanin Rada</span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Path | English Learning</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: var(--primary);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+
+        .loader-text {
+            color: white;
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+        }
+
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 240px 1fr 320px;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .learning-path {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 200px;
+        }
+
+        .unit-card {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .unit-top {
+            background: var(--primary);
+            color: white;
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 60px;
+            box-shadow: 0 10px 0 0 var(--primary-hover);
+            position: sticky;
+            top: 100px;
+            z-index: 10;
+        }
+
+        .node-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .lesson-node {
+            width: 96px;
+            height: 88px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 32px 0;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 8px 0 0 var(--neutral-200);
+            border: 2px solid var(--neutral-200);
+            transition: all 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            z-index: 5;
+        }
+
+        .lesson-node:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 0 var(--neutral-200);
+        }
+
+        .lesson-node.completed {
+            background: var(--success);
+            border-color: #059669;
+            box-shadow: 0 8px 0 0 #059669;
+            color: white;
+        }
+
+        .lesson-node.active {
+            background: #2563eb;
+            border-color: #1d4ed8;
+            box-shadow: 0 8px 0 0 #1d4ed8;
+            color: white;
+            animation: nodePulse 2s infinite;
+        }
+
+        @keyframes nodePulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .node-tooltip {
+            position: absolute;
+            bottom: 110%;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s;
+            pointer-events: none;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .lesson-node:hover .node-tooltip {
+            opacity: 1;
+            visibility: visible;
+            bottom: 120%;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .stats-panel {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        /* SVG Path between nodes */
+        .path-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            stroke: var(--neutral-200);
+            stroke-width: 8;
+            stroke-linecap: round;
+            fill: none;
+            opacity: 0.3;
+        }
+
+        @media (max-width: 1100px) {
+            .dashboard-layout {
+                grid-template-columns: 80px 1fr;
+            }
+
+            .stats-panel {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="loader">
+        <div class="loader-text">Igniting Your Brain...</div>
+    </div>
+
+    <nav>
+        <div class="container nav-content">
+            <a href="index.html" class="logo">🦉 English Learning</a>
+            <div class="user-bar">
+                <div class="stat-item" title="Streak">🔥 <span id="stat-streak">0</span></div>
+                <a href="leaderboard.html" class="stat-item" title="XP">💎 <span id="stat-xp">0</span></a>
+                <a href="shop.html" class="stat-item" title="Lives">❤️ <span id="stat-hearts">5</span></a>
+                <a href="shop.html" class="stat-item" title="Gems">💰 <span id="stat-gems">500</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container dashboard-layout">
+        <aside class="sidebar">
+            <a href="dashboard.html" class="side-link active">🏠 Learn</a>
+            <a href="leaderboard.html" class="side-link">🏆 Leaders</a>
+            <a href="profile.html" class="side-link">👤 Profile</a>
+            <a href="shop.html" class="side-link">🛒 Shop</a>
+        </aside>
+
+        <main class="learning-path" id="path-container">
+            <!-- Units and nodes will be generated here -->
+        </main>
+
+        <section class="stats-panel">
+            <div class="card" style="margin-bottom: 24px;">
+                <h3 style="margin-bottom: 16px;">Daily Progress</h3>
+                <div style="background: var(--neutral-100); height: 12px; border-radius: 6px; overflow: hidden;">
+                    <div id="daily-bar" style="width: 40%; height: 100%; background: var(--primary); transition: 1s;">
+                    </div>
+                </div>
+                <p style="font-size: 13px; color: var(--neutral-700); margin-top: 12px; font-weight: 600;">2/3 lessons
+                    to daily goal</p>
+            </div>
+
+            <div class="card">
+                <h3 style="margin-bottom: 20px;">League Status</h3>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 48px;">🛡️</div>
+                    <div>
+                        <div style="font-weight: 900; font-size: 20px; color: var(--primary);">Iron League</div>
+                        <div style="font-size: 13px; color: var(--neutral-700);">Top 10% move to Gold</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div style="margin-bottom: 24px; font-weight: 800; font-size: 20px;">English Learning</div>
+            <p style="font-size: 14px; color: var(--neutral-300);">&copy; 2026 English Learning Portal. Professional
+                Education Framework.<br>
+                <span style="opacity: 0.8; font-weight: 600;">Built by Hassanin Rada</span>
+            </p>
+            <div style="display: flex; justify-content: center; gap: 24px; margin-top: 24px;">
+                <a href="#" style="color: inherit; text-decoration: none;">Privacy</a>
+                <a href="#" style="color: inherit; text-decoration: none;">Terms</a>
+                <a href="about.html" style="color: inherit; text-decoration: none;">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // Preloader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.transform = 'translateY(-100%)';
+            }, 1000);
+        });
+
+        const container = document.getElementById('path-container');
+
+        function generatePath() {
+            const completed = lingo.userData.completedLessons || [];
+            const content = typeof LINGO_CONTENT !== 'undefined' ? LINGO_CONTENT : (typeof CURRICULUM !== 'undefined' ? CURRICULUM : []);
+
+            container.innerHTML = content.map((unit, uIdx) => {
+                const lessonsCount = unit.lessons.filter(l => completed.includes(l.id)).length;
+
+                const nodesHtml = unit.lessons.map((lesson, lIdx) => {
+                    const isDone = completed.includes(lesson.id);
+                    let isActive = isDone || (lIdx < 2); // Unlock logic
+
+                    const angle = lIdx * 0.8;
+                    const xOffset = Math.sin(angle) * 70;
+
+                    return `
+                        <div style="margin-left: ${xOffset}px">
+                            <a href="lesson.html?id=${lesson.id}" 
+                               class="lesson-node ${isDone ? 'completed' : (isActive ? 'active' : 'locked')}">
+                                ${isDone ? '⭐' : (isActive ? (lesson.icon || '📖') : '🔒')}
+                                <div class="node-tooltip">${lesson.title}</div>
+                            </a>
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="unit-card">
+                        <div class="unit-top">
+                            <h2 style="font-weight: 900; margin-bottom: 4px;">Unit ${uIdx + 1}</h2>
+                            <p style="font-size: 18px; font-weight: 600; opacity: 0.9;">${unit.title}</p>
+                            <div style="margin-top: 16px; font-size: 13px; font-weight: 800; text-transform: uppercase; background: rgba(0,0,0,0.1); display: inline-block; padding: 4px 12px; border-radius: 50px;">
+                                ${lessonsCount} / ${unit.lessons.length} Completed
+                            </div>
+                        </div>
+                        <div class="node-container">
+                            ${nodesHtml}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        generatePath();
+    </script>
+</body>
+
+</html>

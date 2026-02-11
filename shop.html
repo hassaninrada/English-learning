@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rewards Shop | English Learning</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: var(--gems);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+
+        .shop-header {
+            background: linear-gradient(135deg, var(--gems), #16a34a);
+            color: white;
+            padding: 60px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            margin-bottom: 48px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(34, 197, 94, 0.2);
+        }
+
+        .gem-balance-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 12px 32px;
+            border-radius: 100px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 32px;
+        }
+
+        .reward-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            text-align: center;
+            border: 2px solid var(--neutral-100);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .reward-card:hover {
+            transform: translateY(-12px);
+            border-color: var(--gems);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .reward-icon {
+            font-size: 72px;
+            margin-bottom: 24px;
+            display: block;
+            filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.1));
+        }
+
+        .buy-btn {
+            margin-top: auto;
+            width: 100%;
+            height: 56px;
+            border-radius: 16px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .buy-btn.available {
+            background: var(--gems);
+            color: white;
+            box-shadow: 0 6px 0 0 #16a34a;
+        }
+
+        .buy-btn.available:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 0 #16a34a;
+        }
+
+        .buy-btn.locked {
+            background: var(--neutral-100);
+            color: var(--neutral-700);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .owned-tag {
+            background: var(--slate-900);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="loader">
+        <div style="color: white; font-size: 32px; font-weight: 900;">Polishing Gems...</div>
+    </div>
+
+    <nav>
+        <div class="container nav-content">
+            <a href="index.html" class="logo">🦉 English Learning</a>
+            <div class="user-bar">
+                <div class="stat-item" title="Streak">🔥 <span id="stat-streak">0</span></div>
+                <a href="leaderboard.html" class="stat-item" title="XP">💎 <span id="stat-xp">0</span></a>
+                <a href="shop.html" class="stat-item" title="Lives">❤️ <span id="stat-hearts">5</span></a>
+                <a href="shop.html" class="stat-item" title="Gems">💰 <span id="stat-gems-nav">500</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container"
+        style="display: grid; grid-template-columns: 240px 1fr; gap: 48px; margin-top: 40px; padding-bottom: 100px;">
+        <aside class="sidebar">
+            <a href="dashboard.html" class="side-link">🏠 Learn</a>
+            <a href="leaderboard.html" class="side-link">🏆 Leaders</a>
+            <a href="profile.html" class="side-link">👤 Profile</a>
+            <a href="shop.html" class="side-link active">🛒 Shop</a>
+        </aside>
+
+        <main>
+            <div class="shop-header">
+                <p
+                    style="text-transform: uppercase; font-weight: 900; letter-spacing: 3px; font-size: 12px; margin-bottom: 12px; opacity: 0.8;">
+                    Vault Access</p>
+                <div class="gem-balance-wrap">
+                    <span style="font-size: 48px;">💰</span>
+                    <span id="gem-balance" style="font-size: 56px; font-weight: 900; letter-spacing: -2px;">500</span>
+                </div>
+                <p style="margin-top: 20px; font-weight: 600; opacity: 0.9;">Spend wisely, Hero. Gems are earned with
+                    blood and ink.</p>
+            </div>
+
+            <div class="shop-grid" id="reward-items">
+                <!-- Rewards injected here -->
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div style="margin-bottom: 24px; font-weight: 800; font-size: 20px;">English Learning</div>
+            <p style="font-size: 14px; color: var(--neutral-300);">&copy; 2026 English Learning Portal. Professional
+                Education Framework.<br>
+                <span style="opacity: 0.8; font-weight: 600;">Built by Hassanin Rada</span>
+            </p>
+            <div style="display: flex; justify-content: center; gap: 24px; margin-top: 24px;">
+                <a href="#" style="color: inherit; text-decoration: none;">Privacy</a>
+                <a href="#" style="color: inherit; text-decoration: none;">Terms</a>
+                <a href="about.html" style="color: inherit; text-decoration: none;">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.transform = 'translateY(-100%)';
+            }, 800);
+        });
+
+        const SHOP_ITEMS = [
+            { id: 'refill-hearts', icon: '💖', name: 'Blood Refill', desc: 'Instantly restore all hearts to maximum capacity.', price: 50, multi: true },
+            { id: 'streak-freeze', icon: '🧊', name: 'Time Anchor', desc: 'Protect your streak for 24 hours of inactivity.', price: 100, multi: true },
+            { id: 'double-xp', icon: '⚡', name: 'XP Overdrive', desc: 'Gain 2x XP for the next 3 combat lessons.', price: 150, multi: true },
+            { id: 'owl-outfit-1', icon: '🧥', name: 'Golden Cloak', desc: 'An exclusive golden skin for your avatar.', price: 300, multi: false },
+            { id: 'theme-dark', icon: '🌙', name: 'Midnight Lens', desc: 'Toggle the high-contrast dark theme.', price: 400, multi: false }
+        ];
+
+        function renderShop() {
+            const grid = document.getElementById('reward-items');
+            const data = lingo.userData;
+            const gems = data.gems || 0;
+
+            document.getElementById('gem-balance').textContent = gems;
+            document.getElementById('stat-gems-nav').textContent = gems;
+
+            grid.innerHTML = SHOP_ITEMS.map(item => {
+                const isOwned = (data.ownedItems || []).includes(item.id);
+                const canAfford = gems >= item.price;
+
+                let btnText = `Purchase 💰 ${item.price}`;
+                if (!item.multi && isOwned) {
+                    if (item.id === 'theme-dark') btnText = data.settings.darkMode ? 'Switch to Light' : 'Switch to Dark';
+                    else if (item.id === 'owl-outfit-1') btnText = data.settings.avatar === '🧥' ? 'Unequip' : 'Equip';
+                    else btnText = 'Owned';
+                } else if (!canAfford) {
+                    btnText = `Locked (💰 ${item.price})`;
+                }
+
+                return `
+                    <div class="reward-card">
+                        ${(!item.multi && isOwned) ? '<div class="owned-tag">Relic Owned</div>' : ''}
+                        <span class="reward-icon">${item.icon}</span>
+                        <h3 style="font-weight: 900; font-size: 22px; margin-bottom: 8px;">${item.name}</h3>
+                        <p style="color: var(--neutral-700); font-size: 14px; margin-bottom: 32px; line-height: 1.5;">${item.desc}</p>
+                        <button class="buy-btn ${(canAfford || (isOwned && !item.multi)) ? 'available' : 'locked'}"
+                                onclick="handleBuy('${item.id}', ${item.price}, ${item.multi})">
+                            ${btnText}
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function handleBuy(id, price, multi) {
+            const data = lingo.userData;
+            const isOwned = (data.ownedItems || []).includes(id);
+
+            if (!isOwned && data.gems < price) {
+                lingo.showToast('Gems insufficient. Return to training. 💰');
+                return;
+            }
+
+            let sound = 'correct';
+            let msg = 'Relic Purchased!';
+
+            switch (id) {
+                case 'refill-hearts':
+                    if (data.hearts >= 5) { return lingo.showToast('Vitility is already maxed! ❤️'); }
+                    data.hearts = 5;
+                    msg = 'Vitality Restored! ❤️';
+                    break;
+                case 'streak-freeze':
+                    data.boosts.streakFreeze++;
+                    msg = 'Time Anchor Deployed! 🧊';
+                    break;
+                case 'double-xp':
+                    data.boosts.doubleXP += 3;
+                    msg = 'XP Overdrive Engaged! ⚡';
+                    break;
+                case 'owl-outfit-1':
+                    data.settings.avatar = data.settings.avatar === '🧥' ? '🦉' : '🧥';
+                    msg = data.settings.avatar === '🧥' ? 'Golden Cloak Equipped' : 'Cloak Removed';
+                    break;
+                case 'theme-dark':
+                    data.settings.darkMode = !data.settings.darkMode;
+                    msg = data.settings.darkMode ? 'Midnight Lens Active' : 'Daylight Lens Active';
+                    break;
+            }
+
+            if (!isOwned) {
+                data.gems -= price;
+                if (!multi) {
+                    if (!data.ownedItems) data.ownedItems = [];
+                    data.ownedItems.push(id);
+                }
+            }
+
+            lingo.saveUserData();
+            lingo.showToast(msg);
+            renderShop();
+        }
+
+        renderShop();
+    </script>
+</body>
+
+</html>

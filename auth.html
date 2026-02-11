@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Signup - English Learning</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .auth-container {
+            max-width: 450px;
+            margin: 60px auto;
+            text-align: center;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+        }
+
+        .auth-toggle {
+            margin-top: 30px;
+            color: var(--text-light);
+        }
+
+        .auth-toggle a {
+            color: var(--secondary-color);
+            font-weight: 700;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <span style="font-size: 2rem;">🦉</span>
+                <span>English Learning</span>
+            </a>
+            <a href="index.html" class="close-btn" style="text-decoration: none; font-size: 2rem;">✕</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="auth-container card">
+            <h1 id="auth-title" style="margin-bottom: 10px;">Login</h1>
+            <p id="auth-subtitle" style="color: var(--text-light); margin-bottom: 30px;">Welcome back! Ready for your
+                daily lesson?</p>
+
+            <form id="auth-form">
+                <div class="form-group" id="username-group">
+                    <label>Username</label>
+                    <input type="text" id="username" placeholder="Choose a username" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full"
+                    style="padding: 18px; font-size: 1.1rem; margin-top: 10px;">
+                    <span id="submit-text">Login</span>
+                </button>
+            </form>
+
+            <div class="auth-toggle">
+                <span id="toggle-text">Don't have an account?</span>
+                <a href="#" id="toggle-link">Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div style="margin-bottom: 24px; font-weight: 800; font-size: 20px;">English Learning</div>
+            <p style="font-size: 14px; color: var(--neutral-300);">&copy; 2026 English Learning Portal. Professional
+                Education Framework.<br>
+                <span style="opacity: 0.8; font-weight: 600;">Built by Hassanin Rada</span>
+            </p>
+            <div style="display: flex; justify-content: center; gap: 24px; margin-top: 24px;">
+                <a href="#" style="color: inherit; text-decoration: none;">Privacy</a>
+                <a href="#" style="color: inherit; text-decoration: none;">Terms</a>
+                <a href="about.html" style="color: inherit; text-decoration: none;">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        let isLogin = true;
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('mode') === 'signup') toggleMode();
+
+        function toggleMode() {
+            isLogin = !isLogin;
+            const title = document.getElementById('auth-title');
+            const sub = document.getElementById('auth-subtitle');
+            const submit = document.getElementById('submit-text');
+            const toggle = document.getElementById('toggle-text');
+            const link = document.getElementById('toggle-link');
+            const userGroup = document.getElementById('username-group');
+
+            if (isLogin) {
+                title.textContent = 'Login';
+                sub.textContent = 'Welcome back! Ready for your daily lesson?';
+                submit.textContent = 'Login';
+                toggle.textContent = "Don't have an account?";
+                link.textContent = 'Sign Up';
+                userGroup.classList.add('hidden');
+                document.getElementById('username').required = false;
+            } else {
+                title.textContent = 'Create Profile';
+                sub.textContent = 'Start your English learning journey today.';
+                submit.textContent = 'Create Account';
+                toggle.textContent = "Already have an account?";
+                link.textContent = 'Login';
+                userGroup.classList.remove('hidden');
+                document.getElementById('username').required = true;
+            }
+        }
+
+        document.getElementById('toggle-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleMode();
+        });
+
+        document.getElementById('auth-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value.toLowerCase();
+            const usernameInput = document.getElementById('username').value;
+            const username = usernameInput || email.split('@')[0];
+
+            // Use the new multi-user session manager
+            lingo.setActiveUser(email, username);
+
+            lingo.showToast(`Welcome, ${username}!`);
+
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 800);
+        });
+
+        // Add hidden class style if not in global
+        const style = document.createElement('style');
+        style.textContent = '.hidden { display: none !important; }';
+        document.head.append(style);
+
+        // Initial state check
+        if (isLogin) document.getElementById('username-group').classList.add('hidden');
+    </script>
+</body>
+
+</html>

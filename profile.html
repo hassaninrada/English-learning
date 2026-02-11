@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | English Learning</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 48px;
+            margin-top: 48px;
+        }
+
+        .profile-side {
+            text-align: center;
+        }
+
+        .avatar-circle {
+            width: 140px;
+            height: 140px;
+            background: var(--neutral-100);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 64px;
+            box-shadow: var(--shadow-soft);
+            border: 4px solid white;
+        }
+
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 20px;
+        }
+
+        .badge-card {
+            background: var(--neutral-100);
+            border: 2px solid transparent;
+            padding: 24px 16px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            opacity: 0.4;
+            filter: grayscale(1);
+            transition: var(--transition);
+        }
+
+        .badge-card.unlocked {
+            opacity: 1;
+            filter: grayscale(0);
+            background: white;
+            border-color: var(--primary);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .badge-card i {
+            display: block;
+            font-size: 40px;
+            margin-bottom: 12px;
+            font-style: normal;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            text-align: center;
+        }
+
+        .stat-val {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-lab {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--neutral-700);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 800px) {
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body style="background-color: var(--neutral-100);">
+
+    <nav>
+        <div class="container nav-content">
+            <a href="dashboard.html" class="logo">🦉 English Learning</a>
+            <div class="user-bar">
+                <div class="stat-item" title="Streak">🔥 <span id="stat-streak">0</span></div>
+                <a href="leaderboard.html" class="stat-item" title="XP">💎 <span id="stat-xp">0</span></a>
+                <a href="shop.html" class="stat-item" title="Lives">❤️ <span id="stat-hearts">5</span></a>
+                <a href="shop.html" class="stat-item" title="Gems">💰 <span id="stat-gems">500</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container profile-layout">
+        <aside class="profile-side">
+            <div class="card">
+                <div class="avatar-circle" id="profile-avatar"
+                    style="overflow: hidden; border: 4px solid var(--primary);">
+                    <img src="../resume_site/about.jpeg" alt="Hassanin Rada"
+                        style="width: 100%; height: 100%; object-fit: cover; object-position: center top;">
+                </div>
+                <h2 class="display-username">Learner</h2>
+                <p style="color: var(--neutral-700); margin-bottom: 32px;">Level <span id="user-level">1</span> Explorer
+                </p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="stat-box">
+                        <span class="stat-val" id="prof-streak">0</span>
+                        <span class="stat-lab">Streak</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-val" id="prof-xp">0</span>
+                        <span class="stat-lab">Total XP</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="stat-box">
+                        <span class="stat-val" id="prof-lessons">0</span>
+                        <span class="stat-lab">Lessons</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-val" id="prof-gems">500</span>
+                        <span class="stat-lab">Gems</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-outline" id="logout-btn"
+                    style="margin-top: 40px; width: 100%; color: var(--danger);">Log Out</button>
+            </div>
+        </aside>
+
+        <main>
+            <div class="card">
+                <h2 style="margin-bottom: 32px;">Achievements</h2>
+                <div class="badge-grid">
+                    <div class="badge-card unlocked">
+                        <i>🐣</i>
+                        <div style="font-weight: 800; font-size: 14px;">Genesis</div>
+                        <div style="font-size: 11px; color: var(--neutral-700);">Joined the platform</div>
+                    </div>
+
+                    <div class="badge-card" id="badge-streak-3">
+                        <i>🔥</i>
+                        <div style="font-weight: 800; font-size: 14px;">Wildfire</div>
+                        <div style="font-size: 11px; color: var(--neutral-700);">3-Day Streak</div>
+                    </div>
+
+                    <div class="badge-card" id="badge-xp-1000">
+                        <i>🎓</i>
+                        <div style="font-weight: 800; font-size: 14px;">Scholar</div>
+                        <div style="font-size: 11px; color: var(--neutral-700);">1,000 Total XP</div>
+                    </div>
+
+                    <div class="badge-card" id="badge-perfect">
+                        <i>🎯</i>
+                        <div style="font-weight: 800; font-size: 14px;">Marksman</div>
+                        <div style="font-size: 11px; color: var(--neutral-700);">Perfect Lesson</div>
+                    </div>
+
+                    <div class="badge-card" id="badge-unit-complete">
+                        <i>🏆</i>
+                        <div style="font-weight: 800; font-size: 14px;">Master</div>
+                        <div style="font-size: 11px; color: var(--neutral-700);">Finish a Unit</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div style="margin-bottom: 24px; font-weight: 800; font-size: 20px;">English Learning</div>
+            <p style="font-size: 14px; color: var(--neutral-300);">&copy; 2026 English Learning Portal. Professional
+                Education Framework.<br>
+                <span style="opacity: 0.8; font-weight: 600;">Built by Hassanin Rada</span>
+            </p>
+            <div style="display: flex; justify-content: center; gap: 24px; margin-top: 24px;">
+                <a href="#" style="color: inherit; text-decoration: none;">Privacy</a>
+                <a href="#" style="color: inherit; text-decoration: none;">Terms</a>
+                <a href="about.html" style="color: inherit; text-decoration: none;">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const data = lingo.userData;
+
+            // Update Level & Stats
+            document.getElementById('user-level').textContent = data.level;
+            document.getElementById('prof-streak').textContent = data.streak;
+            document.getElementById('prof-xp').textContent = data.xp;
+            document.getElementById('prof-gems').textContent = data.gems;
+            document.getElementById('prof-lessons').textContent = data.completedLessons.length;
+
+            // Sync with avatar setting
+            if (data.settings && data.settings.avatar) {
+                document.getElementById('profile-avatar').textContent = data.settings.avatar;
+            }
+
+            // Unlock Logic
+            if (data.streak >= 3) document.getElementById('badge-streak-3').classList.add('unlocked');
+            if (data.xp >= 1000) document.getElementById('badge-xp-1000').classList.add('unlocked');
+            if (data.completedLessons.length >= 1) document.getElementById('badge-perfect').classList.add('unlocked');
+
+            // Log Out logic
+            document.getElementById('logout-btn').addEventListener('click', () => {
+                const modal = confirm('Sign out of your account? Your progress is saved locally.');
+                if (modal) {
+                    lingo.logout();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

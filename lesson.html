@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Lesson - English Learning</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        .lesson-layout {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .lesson-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .close-btn {
+            font-size: 2rem;
+            text-decoration: none;
+            color: var(--text-light);
+            line-height: 1;
+        }
+
+        #question-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .question-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .option-card {
+            padding: 24px;
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 4px 0 0 var(--border-color);
+            cursor: pointer;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.1s ease;
+        }
+
+        .option-card:hover {
+            background-color: #f7f7f7;
+        }
+
+        .option-card.selected {
+            background-color: #ddf4ff;
+            border-color: #1cb0f6;
+            box-shadow: 0 4px 0 0 #1899d6;
+            color: #1cb0f6;
+        }
+
+        .arrange-zone {
+            min-height: 80px;
+            border-top: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 20px 0;
+            margin-bottom: 40px;
+        }
+
+        .word-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .word-chip {
+            padding: 12px 24px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 3px 0 0 var(--border-color);
+            cursor: pointer;
+            background: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .word-chip.used {
+            opacity: 0.1;
+            cursor: default;
+        }
+
+        .feedback-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 40px 0;
+            background: white;
+            border-top: 2px solid var(--border-color);
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+        }
+
+        .feedback-bar.show {
+            transform: translateY(0);
+        }
+
+        .feedback-bar.correct {
+            background-color: #d7ffb8;
+            border-color: #a5ed6e;
+        }
+
+        .feedback-bar.incorrect {
+            background-color: #ffdfe0;
+            border-color: #ff4b4b;
+        }
+
+        .feedback-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .feedback-message {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .feedback-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 900;
+        }
+
+        .correct .feedback-icon {
+            color: #58cc02;
+        }
+
+        .incorrect .feedback-icon {
+            color: #ff4b4b;
+        }
+
+        .correct h3 {
+            color: #58cc02;
+        }
+
+        .incorrect h3 {
+            color: #ff4b4b;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="lesson-layout">
+        <header class="lesson-header">
+            <a href="dashboard.html" class="close-btn">✕</a>
+            <div class="progress-container">
+                <div id="lesson-progress" class="progress-bar" style="width: 0%;"></div>
+                <div class="progress-shine"></div>
+            </div>
+            <div class="stat-item" style="font-size: 1.5rem;">
+                ❤️ <span id="lives">5</span>
+            </div>
+        </header>
+
+        <main id="question-area">
+            <div id="question-container">
+                <!-- Content injected by JS -->
+            </div>
+        </main>
+
+        <footer style="margin-top: 50px; padding-bottom: 20px;">
+            <button id="check-btn" class="btn btn-primary btn-full" style="padding: 20px; font-size: 1.25rem;"
+                disabled>CHECK</button>
+        </footer>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div style="margin-bottom: 24px; font-weight: 800; font-size: 20px;">English Learning</div>
+            <p style="font-size: 14px; color: var(--neutral-300);">&copy; 2026 English Learning Portal. Professional
+                Education Framework.<br>
+                <span style="opacity: 0.8; font-weight: 600;">Built by Hassanin Rada</span>
+            </p>
+            <div style="display: flex; justify-content: center; gap: 24px; margin-top: 24px;">
+                <a href="#" style="color: inherit; text-decoration: none;">Privacy</a>
+                <a href="#" style="color: inherit; text-decoration: none;">Terms</a>
+                <a href="about.html" style="color: inherit; text-decoration: none;">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Feedback Bar -->
+    <div id="feedback-bar" class="feedback-bar">
+        <div class="feedback-content">
+            <div class="feedback-message">
+                <div class="feedback-icon" id="feedback-icon">✔</div>
+                <div>
+                    <h3 id="feedback-title">Correct!</h3>
+                    <p id="feedback-subtext" style="font-weight: 500;"></p>
+                </div>
+            </div>
+            <button id="next-btn" class="btn btn-primary" style="padding: 15px 40px;">CONTINUE</button>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/lesson.js"></script>
+</body>
+
+</html>

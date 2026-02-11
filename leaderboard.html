@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard | Master the Ranks</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .rank-card {
+            display: flex;
+            align-items: center;
+            padding: 24px 32px;
+            margin-bottom: 12px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+
+        .rank-card:hover {
+            transform: translateX(8px);
+            border-color: var(--primary);
+        }
+
+        .rank-number {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--neutral-300);
+            width: 48px;
+        }
+
+        .rank-card:nth-child(1) .rank-number {
+            color: #fbbf24;
+        }
+
+        /* Gold */
+        .rank-card:nth-child(2) .rank-number {
+            color: #94a3b8;
+        }
+
+        /* Silver */
+        .rank-card:nth-child(3) .rank-number {
+            color: #b45309;
+        }
+
+        /* Bronze */
+
+        .rank-avatar {
+            width: 48px;
+            height: 48px;
+            background: var(--neutral-100);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 24px;
+        }
+
+        .rank-info {
+            flex-grow: 1;
+        }
+
+        .rank-name {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--neutral-900);
+        }
+
+        .rank-meta {
+            font-size: 14px;
+            color: var(--neutral-700);
+        }
+
+        .rank-xp {
+            font-weight: 800;
+            font-size: 20px;
+            color: var(--primary);
+        }
+    </style>
+</head>
+
+<body style="background-color: var(--neutral-100);">
+
+    <nav>
+        <div class="container nav-content">
+            <a href="index.html" class="logo" id="main-logo">
+                <span>🦉 English Learning</span>
+            </a>
+            <div class="user-bar">
+                <div class="stat-item" title="Streak">🔥 <span id="stat-streak">0</span></div>
+                <a href="leaderboard.html" class="stat-item" title="XP">💎 <span id="stat-xp">0</span></a>
+                <a href="shop.html" class="stat-item" title="Lives">❤️ <span id="stat-hearts">5</span></a>
+                <a href="shop.html" class="stat-item" title="Gems">💰 <span id="stat-gems">500</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container dashboard-grid" style="grid-template-columns: 200px 1fr;">
+        <aside class="sidebar">
+            <a href="dashboard.html" class="side-link">🏠 Learn</a>
+            <a href="leaderboard.html" class="side-link active">🏆 Leaders</a>
+            <a href="profile.html" class="side-link">👤 Profile</a>
+            <a href="shop.html" class="side-link">🛒 Shop</a>
+        </aside>
+
+        <main>
+            <div
+                style="background: linear-gradient(135deg, var(--primary), #1e40af); color: white; padding: 60px; border-radius: var(--radius-lg); margin-bottom: 48px; box-shadow: var(--shadow-soft); text-align: center;">
+                <h1 style="color: white; margin-bottom: 12px;">Bronze League</h1>
+                <p style="color: rgba(255,255,255,0.9); font-size: 18px;">Top 10 players advance to the Silver League in
+                    3 days.</p>
+            </div>
+
+            <div id="leaderboard-full-list">
+                <div style="text-align: center; padding: 48px;">
+                    <p style="color: var(--neutral-700);">Fetching rankings from the global server...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div style="margin-bottom: 24px; font-weight: 800; font-size: 20px;">English Learning</div>
+            <p style="font-size: 14px; color: var(--neutral-300);">&copy; 2026 English Learning Portal. Professional
+                Education Framework.<br>
+                <span style="opacity: 0.8; font-weight: 600;">Built by Hassanin Rada</span>
+            </p>
+            <div style="display: flex; justify-content: center; gap: 24px; margin-top: 24px;">
+                <a href="#" style="color: inherit; text-decoration: none;">Privacy</a>
+                <a href="#" style="color: inherit; text-decoration: none;">Terms</a>
+                <a href="about.html" style="color: inherit; text-decoration: none;">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        async function loadLeaderboard() {
+            const container = document.getElementById('leaderboard-full-list');
+            const currentUser = lingo.userData.username;
+
+            try {
+                const response = await fetch('http://localhost:3000/api/leaderboard');
+                const players = await response.json();
+
+                if (players.length === 0) {
+                    container.innerHTML = `<div class="card" style="text-align:center;"><h3>No rankings yet</h3><p>Complete a lesson to be the first!</p></div>`;
+                    return;
+                }
+
+                container.innerHTML = players.map((player, idx) => `
+                    <div class="rank-card ${player.username === currentUser ? 'active' : ''}" style="${player.username === currentUser ? 'border-color: var(--primary); background: #eff6ff;' : ''}">
+                        <div class="rank-number">${idx + 1}</div>
+                        <div class="rank-avatar">${player.username[0].toUpperCase()}</div>
+                        <div class="rank-info">
+                            <div class="rank-name">${player.username} ${player.username === currentUser ? '(You)' : ''}</div>
+                            <div class="rank-meta">Level ${player.level} | ${player.streak} day streak</div>
+                        </div>
+                        <div class="rank-xp">${player.xp} XP</div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                // Mock data for offline mode
+                const mockPlayers = [
+                    { username: 'TopLearner', level: 12, streak: 15, xp: 4500 },
+                    { username: 'LingoMaster', level: 10, streak: 8, xp: 3200 },
+                    { username: 'StudyPro', level: 8, streak: 5, xp: 2100 },
+                    { username: currentUser, level: lingo.userData.level, streak: lingo.userData.streak, xp: lingo.userData.xp }
+                ].sort((a, b) => b.xp - a.xp);
+
+                container.innerHTML = `
+                    <div class="skill-tag" style="margin-bottom: 24px; background: #fee2e2; color: #b91c1c;">Offline Mode - Local rankings only</div>
+                ` + mockPlayers.map((player, idx) => `
+                    <div class="rank-card">
+                        <div class="rank-number">${idx + 1}</div>
+                        <div class="rank-avatar">${player.username[0].toUpperCase()}</div>
+                        <div class="rank-info">
+                            <div class="rank-name">${player.username} ${player.username === currentUser ? '(You)' : ''}</div>
+                            <div class="rank-meta">Level ${player.level} | ${player.streak} day streak</div>
+                        </div>
+                        <div class="rank-xp">${player.xp} XP</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadLeaderboard);
+    </script>
+</body>
+
+</html>
